@@ -1,30 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-	"net/http"
-	"net/url"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
+	"log"
+	"sm/config"
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/:path", func(c *gin.Context) {
-		path := c.Request.URL.String()
-
-		parse, err := url.Parse(path)
-		if err != nil {
-			c.JSON(http.StatusOK, gin.H{
-				"message": err,
-			})
-			return
-		}
-		for _, v := range parse.Query() {
-			fmt.Println(v)
-		}
-		c.JSON(http.StatusOK, gin.H{
-			"message": path,
-		})
-	})
-	r.Run()
+	err := config.Load()
+	if err != nil {
+		log.Fatalf("cannot load config : %v", err)
+	}
+	client, err := mongo.Connect(options.Client().ApplyURI("mongodb://root:root@localhost:27017"))
+	if err != nil {
+		log.Fatalf("cannot connect mongo : %v", err)
+	}
+	app := initApp(client)
+	app.Run()
 }

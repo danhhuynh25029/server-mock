@@ -1,0 +1,10 @@
+http:
+  port: 8999
+  host: localhost
+
+mongo:
+  host : localhost
+  port : 27017
+  user : root
+  password : root
+  name : mock
