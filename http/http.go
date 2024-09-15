@@ -21,6 +21,9 @@ func (s *Server) Route(r *gin.RouterGroup) {
 			"status": "ok",
 		})
 	})
+	r.POST("/mock", s.CreateMockApi)
+	r.GET("/mock/:id", s.GetMockApi)
+	r.GET("/gen/*path", s.GenerateDataFromMock)
 }
 
 func (s *Server) Run() {

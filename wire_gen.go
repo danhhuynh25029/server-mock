@@ -16,8 +16,8 @@ import (
 // Injectors from wire.go:
 
 func initApp(client *mongo.Client) *http.Server {
-	iRepository := mgo.NewMongo()
-	iService := service.NewMockSvc(iRepository)``
+	iRepository := mgo.NewMongo(client)
+	iService := service.NewMockSvc(iRepository)
 	server := http.NewServer(iService)
 	return server
 }

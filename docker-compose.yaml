@@ -1,13 +1,17 @@
 version: "2.7"
 services:
   mock-db:
-    image: mongo
+    container_name: mock-db
+    image: bitnami/mongodb
     restart: always
     environment:
-      MONGODB_USERNAME: root
-      MONGODB_PASSWORD: root
+      MONGODB_USERNAME: mock
+      MONGODB_PASSWORD: mock123
       MONGODB_DATABASE: mock
+      ALLOW_EMPTY_PASSWORD: yes
     ports:
       - '27017:27017'
     volumes:
-      - ./volume/mongodb:/bitnami/mongodb
+      - volume:/bitnami/mongodb
+volumes:
+  volume:
